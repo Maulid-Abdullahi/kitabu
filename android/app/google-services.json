@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "508002550118",
+    "firebase_url": "https://keytabu-63624-default-rtdb.firebaseio.com",
+    "project_id": "keytabu-63624",
+    "storage_bucket": "keytabu-63624.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:508002550118:android:61aba9b40e8182fcde48a7",
+        "android_client_info": {
+          "package_name": "com.example.keytabu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "508002550118-gmvhvk79qjba5jrbd9nmek1dtkbl6ciu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpdSjBfGmZCVP7Fu-Oo51A-m2ML0M1mGE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "508002550118-gmvhvk79qjba5jrbd9nmek1dtkbl6ciu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:508002550118:android:f53b02a647103253de48a7",
+        "android_client_info": {
+          "package_name": "com.example.keytabu_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "508002550118-gmvhvk79qjba5jrbd9nmek1dtkbl6ciu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpdSjBfGmZCVP7Fu-Oo51A-m2ML0M1mGE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "508002550118-gmvhvk79qjba5jrbd9nmek1dtkbl6ciu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
