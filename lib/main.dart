@@ -6,6 +6,7 @@ import 'package:keytabu_project/pages/Signup.dart';
 import 'package:keytabu_project/pages/ProfileExtension.dart';
 import 'package:keytabu_project/pages/Homepage.dart';
 import 'package:keytabu_project/pages/ContentViewExtension.dart';
+import 'package:keytabu_project/pages/AccountDetails.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,10 +26,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.green,
       ),
 
-      initialRoute: "/Login",
+      initialRoute: "/PaymentPage",
       routes: {
         "/ProfilePage":(context)=> ProfilePage(),
         "/Login":(context)=> Login(),
+        "/AccountDetails":(context)=> AccountDetails(),
         "/ProfileExtension":(context)=> ProfileExtension(),
         "/Signup":(context)=> Signup(),
         "/Homepage":(context)=> Homepage(),
