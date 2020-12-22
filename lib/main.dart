@@ -7,6 +7,7 @@ import 'package:keytabu_project/pages/ProfileExtension.dart';
 import 'package:keytabu_project/pages/Homepage.dart';
 import 'package:keytabu_project/pages/ContentViewExtension.dart';
 import 'package:keytabu_project/pages/AccountDetails.dart';
+import 'package:keytabu_project/pages/CloudFirestoreSearch.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,10 +27,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.green,
       ),
 
-      initialRoute: "/PaymentPage",
+      initialRoute: "/CloudFirestoreSearch ",
       routes: {
         "/ProfilePage":(context)=> ProfilePage(),
         "/Login":(context)=> Login(),
+        "/CloudFirestoreSearch ":(context)=> CloudFirestoreSearch (),
         "/AccountDetails":(context)=> AccountDetails(),
         "/ProfileExtension":(context)=> ProfileExtension(),
         "/Signup":(context)=> Signup(),

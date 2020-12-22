@@ -17,6 +17,7 @@ class Signup extends StatefulWidget {
 class _Signup extends State<Signup> {
   final firestoreInstance = Firestore.instance;
   // final databaseReference = FirebaseDatabase.instance.reference();
+  bool _isHidden = true;
   var isImageLoaded = false;
   //String dropdownValue = '4Kids';
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
@@ -140,7 +141,7 @@ class _Signup extends State<Signup> {
                         FormBuilderTextField(
                           attribute: "Password",
                           keyboardType: TextInputType.text,
-                          obscureText: true,
+                          obscureText: _isHidden,
                           validators: [
                             //  FormBuilderValidators.email(errorText: "Email is invalid")
                           ],
@@ -149,7 +150,11 @@ class _Signup extends State<Signup> {
                                   borderRadius:
                                   const BorderRadius.all(Radius.circular(6.0))),
                               hintText: "Enter Password",
-                              suffixIcon: Icon(Icons.visibility_off)),
+                              suffixIcon: InkWell(
+                                  onTap: _togglePasswordView,
+                                  child: Icon(
+                                    _isHidden ? Icons.visibility : Icons.visibility_off,
+                                  ))),
                         ),
                         SizedBox(
                           height: ScreenUtil().setHeight(20),
@@ -259,6 +264,11 @@ class _Signup extends State<Signup> {
                 ))
           ],
         ));
+  }
+  void _togglePasswordView() {
+    setState(() {
+      _isHidden = !_isHidden;
+    });
   }
 
 }

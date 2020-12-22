@@ -51,6 +51,7 @@ dev_dependencies:
   image_picker: ^0.6.7+7
   modal_progress_hud: ^0.1.3
   font_awesome_flutter: ^8.2.0
+  flappy_search_bar: 1.4.1
 
 
   lottie: ^0.6.0
