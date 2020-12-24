@@ -88,7 +88,7 @@ class _ProfileExtensionState extends State<ProfileExtension> {
                             _showPicker(context);
                           },
                           child: CircleAvatar(
-                            radius: 55,
+                            radius: 52,
                             backgroundColor: Colors.green,
                             child: _image != null
                                 ? ClipRRect(

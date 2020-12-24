@@ -8,6 +8,7 @@ import 'package:keytabu_project/pages/Homepage.dart';
 import 'package:keytabu_project/pages/ContentViewExtension.dart';
 import 'package:keytabu_project/pages/AccountDetails.dart';
 import 'package:keytabu_project/pages/CloudFirestoreSearch.dart';
+import 'package:keytabu_project/pages/FlutterMpesa.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,10 +28,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.green,
       ),
 
-      initialRoute: "/CloudFirestoreSearch ",
+      initialRoute: "/FlutterMpesa",
       routes: {
         "/ProfilePage":(context)=> ProfilePage(),
         "/Login":(context)=> Login(),
+        "/FlutterMpesa":(context)=> FlutterMpesa(),
         "/CloudFirestoreSearch ":(context)=> CloudFirestoreSearch (),
         "/AccountDetails":(context)=> AccountDetails(),
         "/ProfileExtension":(context)=> ProfileExtension(),

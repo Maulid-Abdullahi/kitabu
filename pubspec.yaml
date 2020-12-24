@@ -52,6 +52,7 @@ dev_dependencies:
   modal_progress_hud: ^0.1.3
   font_awesome_flutter: ^8.2.0
   flappy_search_bar: 1.4.1
+  mpesa_flutter_plugin: ^1.0.0
 
 
   lottie: ^0.6.0

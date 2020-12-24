@@ -18,6 +18,7 @@ class ContentViewExtension extends StatefulWidget {
 
 class _ContentViewExtension extends State<ContentViewExtension> {
   VideoPlayerController controller;
+  Future<void> _initializeVideoPlayerFuture;
 
   // FloatingActionButton floatingActionButton;
   bool visibility = true;
@@ -84,6 +85,11 @@ class _ContentViewExtension extends State<ContentViewExtension> {
 
                         child: Column(
                           children: [
+                            // Icon(
+                            //   controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+                            //   size: 120.0,
+                            //   // Icons.image, color: Colors.black,
+                            // )
                             Image.asset("assets/loading_enta_gif.jpg",
                               height: ScreenUtil().setHeight(200),
                               width: MediaQuery.of(context).size.width,
@@ -97,11 +103,17 @@ class _ContentViewExtension extends State<ContentViewExtension> {
                   ),
                   onTap: () {
                     setState(() {
-                      if (visibility)
-                        visibility = false;
-                      else
-                        visibility = true;
+                      if(controller.value.isPlaying){
+                        controller.pause();
+                      }else{
+                        controller.play();
+                      }
+                      // if (visibility)
+                      //   visibility = false;
+                      // else
+                      //   visibility = true;
                     });
+
                   },
                 ),
                 InkWell(
@@ -112,6 +124,7 @@ class _ContentViewExtension extends State<ContentViewExtension> {
                             builder: (context) =>
                                 ContentViewExtension())); //SideMenu
                   },
+
                   child: ClipRRect(
                     child: Image.asset(
                       widget.images,
@@ -121,6 +134,7 @@ class _ContentViewExtension extends State<ContentViewExtension> {
                     ),
                     borderRadius: BorderRadius.circular(50),
                   ),
+
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -305,12 +319,17 @@ class _ContentViewExtension extends State<ContentViewExtension> {
     // TODO: implement initState
     super.initState();
     controller = VideoPlayerController.network(widget.video_url)
-      ..initialize().then((_) {
+        ..initialize().then((_) {
         setState(() {
           if (widget.video_url != null) {
             controller.play();
           }
         });
       });
+    // Initielize the controller and store the Future for later use.
+    _initializeVideoPlayerFuture = controller.initialize();
+
+    // Use the controller to loop the video.
+    controller.setLooping(true);
   }
 }
