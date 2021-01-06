@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:keytabu_project/pages/ContentViewExtension.dart';
 import 'package:keytabu_project/pages/ContentView.dart';
 import 'package:keytabu_project/pages/SubjectsView.dart';
+import 'package:keytabu_project/pages/EditProfile.dart';
 
 class Homepage extends StatefulWidget {
   final String level, username, image;
@@ -115,15 +116,23 @@ class _HomepageState extends State<Homepage>
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: CircleAvatar(
-                          radius: 30,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(60),
-                            child: Image.network(
-                              widget.image,
-                              height: 60,
-                              width: 60,
-                              fit: BoxFit.cover,
+                        child: InkWell(
+                          onTap: () async {
+                            String pin = await Navigator.push<String>(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => EditProfile()));
+                          },
+                          child: CircleAvatar(
+                            radius: 30,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(60),
+                              child: Image.network(
+                                widget.image,
+                                height: 60,
+                                width: 60,
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
                         ),

@@ -2,8 +2,13 @@ import 'package:flutter_screenutil/screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:keytabu_project/pages/RoundedContainer.dart';
 import 'package:keytabu_project/pages/ProfilePage.dart';
+import 'package:keytabu_project/pages/PaymentGateway.dart';
+import '../main.dart';
 
 class AccountDetails extends StatefulWidget {
+  final String phoneNumber;
+
+  const AccountDetails({Key key, this.phoneNumber}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
     return _AccountDetails();
@@ -12,6 +17,7 @@ class AccountDetails extends StatefulWidget {
 
 class _AccountDetails extends State<AccountDetails> {
   String color = "Red";
+  String price="1500";
   int tappedIndex = 0;
   bool _isHidden = true;
   bool isImageLoaded = false;
@@ -58,20 +64,20 @@ class _AccountDetails extends State<AccountDetails> {
                         child: Column(
                           children: <Widget>[
                             Text(
-                              "Free",
+                              "\Ksh 1500",
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: color == "Red"
-                                      ? Colors.white
-                                      : Colors.black),
+                                  color:
+                                  color == "Red" ? Colors.white : Colors.black,
+                                  fontSize: 13.0,
+                                  fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(height: 5.0),
                             Text(
-                              "7 days",
+                              "Bronze",
                               style: TextStyle(
-                                color:
-                                    color == "Red" ? Colors.white : Colors.grey,
-                                fontSize: 13.0,
+                                  color: color == "Red"
+                                      ? Colors.white
+                                      : Colors.black
                               ),
                             )
                           ],
@@ -80,38 +86,7 @@ class _AccountDetails extends State<AccountDetails> {
                       onTap: () {
                         setState(() {
                           color = "Red";
-                        });
-                      },
-                    ),
-                  ),
-                  Expanded(
-                    child: InkWell(
-                      child: RoundedContainer(
-                        color: color == "Blue" ? Colors.red : Colors.white,
-                        margin: const EdgeInsets.symmetric(
-                          vertical: 8.0,
-                          horizontal: 8.0,
-                        ),
-                        child: Column(
-                          children: <Widget>[
-                            Text(
-                              "\Ksh 1500",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(height: 5.0),
-                            Text(
-                              "Bronze",
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 13.0,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      onTap: () {
-                        setState(() {
-                          color = "Blue";
+                          price="1500";
                         });
                       },
                     ),
@@ -131,7 +106,7 @@ class _AccountDetails extends State<AccountDetails> {
                         child: Column(
                           children: <Widget>[
                             Text(
-                              "\Ksh 2000",
+                              "\Ksh 2",
                               style: TextStyle(fontWeight: FontWeight.bold)
                                   .copyWith(
                                 color: Colors.black,
@@ -151,6 +126,7 @@ class _AccountDetails extends State<AccountDetails> {
                       onTap: () {
                         setState(() {
                           color = "Green";
+                          price="1";
                         });
                       },
                     ),
@@ -183,6 +159,7 @@ class _AccountDetails extends State<AccountDetails> {
                       onTap: () {
                         setState(() {
                           color = "Yellow";
+                          price="3000";
                         });
                       },
                     ),
@@ -197,21 +174,29 @@ class _AccountDetails extends State<AccountDetails> {
                   horizontal: 32.0,
                 ),
                 child: RaisedButton(
+
                   elevation: 0,
                   padding: const EdgeInsets.all(24.0),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0)),
-                  child: InkWell(
-                      onTap: () async {
-                        String pin = await Navigator.push<String>(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ProfilePage()));
-                      },
-                      child: Text("Continue")),
+                  child: Text("Continue"),
                   color: Colors.green,
                   textColor: Colors.white,
-                  onPressed: () {},
+                  onPressed: () async {
+                    final response = await getIt<PaymentGateway>().selfTopUp(widget.phoneNumber,price);
+                    if(response["code"]==200){
+                      if(response["ResultDesc"]=="Request cancelled by user"){
+                        showErrorDialog("Payment",response["ResultDesc"].toString());
+
+                      }else{
+                        Navigator.pushNamed(context, "/ProfilePage");
+                        showErrorDialog("Payment",response["ResultDesc"].toString());
+                      }
+                    }else if(response["code"]==500){
+                      showErrorDialog("Payment","Something went wrong. Try again");
+                    }
+
+                  },
                 ),
               )
             ],
@@ -219,5 +204,27 @@ class _AccountDetails extends State<AccountDetails> {
         ),
       ),
     );
+  }
+  Future showErrorDialog(String email, String message) {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          backgroundColor: Colors.white,
+          title: SizedBox(height: 30.0, child: Text(email)),
+          content: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(message),
+          ),
+          actions: [
+            FlatButton(
+                onPressed: () => Navigator.pop(context),
+                child: InkWell(
+                  child: Text("OK"),
+                  onTap: () async {
+                    Navigator.pop(context);
+                  },
+                ))
+          ],
+        ));
   }
 }

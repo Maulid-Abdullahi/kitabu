@@ -1,18 +1,16 @@
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:keytabu_project/pages/Keys.dart';
+import 'package:keytabu_project/pages/PaymentGateway.dart';
 import 'dart:async';
 import 'package:mpesa_flutter_plugin/mpesa_flutter_plugin.dart';
-
-
+import 'package:get_it/get_it.dart';
+import '../main.dart';
 void main() {
   /*Set Consumer credentials before initializing the payment.
     You can get  them from https://developer.safaricom.co.ke/ by creating
     an account and an app.
      */
-  MpesaFlutterPlugin.setConsumerKey(mConsumerKey);
-  MpesaFlutterPlugin.setConsumerSecret(mConsumerSecret);
-
   runApp(FlutterMpesa());
 }
 
@@ -23,10 +21,12 @@ class FlutterMpesa extends StatefulWidget {
 
 class _FlutterMpesaState extends State<FlutterMpesa> {
 
-Future<void> startCheckout({double amount, String phone}) async {
+/*Future<void> startCheckout({double amount, String phone}) async {
   dynamic transactionInitialisation;
   //Wrap it with a try-catch
   try {
+    MpesaFlutterPlugin.setConsumerKey('eUwz3iEMbmze6G5sPykngjzbstNP3rBQ');
+    MpesaFlutterPlugin.setConsumerSecret('I9URgveOrGeAt2Fl');
     //Run it
     transactionInitialisation = await MpesaFlutterPlugin.initializeMpesaSTKPush(
         businessShortCode: "174379",
@@ -49,7 +49,7 @@ Future<void> startCheckout({double amount, String phone}) async {
     print("CAUGHT EXCEPTION:" + e.toString());
   }
 
-}
+}*/
   @override
   Widget build(BuildContext context) {
     //default value : width : 1080px , height:1920px , allowFontScaling:false
@@ -68,8 +68,10 @@ Future<void> startCheckout({double amount, String phone}) async {
           ),
         ),
       floatingActionButton: FloatingActionButton(
-        onPressed:(){
-          startCheckout(amount: 8.0, phone: "254720304574");
+        onPressed:()async{
+          // final response = await getIt<PaymentGateway>().selfTopUp("", "",(){
+          //   Navigator.pushNamed(context, "/ProfilePage");
+          // });
         },
         tooltip: 'Increment',
         child: Text("Pay"),

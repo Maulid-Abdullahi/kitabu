@@ -4,7 +4,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:keytabu_project/functions/AppFunction.dart';
 import 'package:keytabu_project/pages/Signup.dart';
-import 'package:keytabu_project/pages/AccountDetails.dart';
+import 'package:keytabu_project/pages/ProfilePage.dart';
 
 class Login extends StatefulWidget {
   AppFunction appFunction = new AppFunction();
@@ -118,7 +118,7 @@ class _Login extends State<Login> {
                         password: _fbKey.currentState.value["Password"]);
                 if (userCredential != null) {
                   Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => AccountDetails()));
+                      context, MaterialPageRoute(builder: (context) => ProfilePage()));
                 }
               } on FirebaseAuthException catch (e) {
                 if (e.code == 'user-not-found') {

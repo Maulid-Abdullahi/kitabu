@@ -9,14 +9,22 @@ import 'package:keytabu_project/pages/ContentViewExtension.dart';
 import 'package:keytabu_project/pages/AccountDetails.dart';
 import 'package:keytabu_project/pages/CloudFirestoreSearch.dart';
 import 'package:keytabu_project/pages/FlutterMpesa.dart';
+import 'package:keytabu_project/pages/EditProfile.dart';
+import 'package:get_it/get_it.dart';
+import 'package:keytabu_project/pages/PaymentGateway.dart';
 
 void main() async{
+  setup();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyApp());
 }
-
+final getIt = GetIt.instance;
+void setup() {
+  getIt.registerSingleton<PaymentGateway>(PaymentGateway());
+}
 class MyApp extends StatelessWidget {
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -28,10 +36,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.green,
       ),
 
-      initialRoute: "/FlutterMpesa",
+      initialRoute: "/Login",
       routes: {
         "/ProfilePage":(context)=> ProfilePage(),
         "/Login":(context)=> Login(),
+        "/EditProfile":(context)=> EditProfile(),
         "/FlutterMpesa":(context)=> FlutterMpesa(),
         "/CloudFirestoreSearch ":(context)=> CloudFirestoreSearch (),
         "/AccountDetails":(context)=> AccountDetails(),
