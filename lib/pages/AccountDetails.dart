@@ -4,11 +4,18 @@ import 'package:keytabu_project/pages/RoundedContainer.dart';
 import 'package:keytabu_project/pages/ProfilePage.dart';
 import 'package:keytabu_project/pages/PaymentGateway.dart';
 import '../main.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:keytabu_project/functions/AppFunction.dart';
 
+// ignore: must_be_immutable
 class AccountDetails extends StatefulWidget {
-  final String phoneNumber;
+  AppFunction appFunction = new AppFunction();
+  // ignore: non_constant_identifier_names
+  final String Phone, Password, Email, Name,Location, ParentID;
 
-  const AccountDetails({Key key, this.phoneNumber}) : super(key: key);
+
+  // ignore: non_constant_identifier_names
+  AccountDetails({Key key, this.Phone, this.Password, this.Email, this.Name, this.Location, this.ParentID}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
     return _AccountDetails();
@@ -19,8 +26,11 @@ class _AccountDetails extends State<AccountDetails> {
   String color = "Red";
   String price="1500";
   int tappedIndex = 0;
-  bool _isHidden = true;
+  var isHidden = false;
   bool isImageLoaded = false;
+
+
+
   @override
   Widget build(BuildContext context) {
     /**this is the screenUtil lines that handle the screen ratios*/
@@ -29,19 +39,20 @@ class _AccountDetails extends State<AccountDetails> {
     ScreenUtil.init(context);
     //If the design is based on the size of the iPhone6 ​​(iPhone6 ​​750*1334)
     ScreenUtil.init(context, width: 360, height: 750);
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        iconTheme: IconThemeData(
-          color: Colors.black,
+    return ModalProgressHUD(
+      inAsyncCall: isHidden,
+      color: Colors.black,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          iconTheme: IconThemeData(
+            color: Colors.black,
+          ),
         ),
-      ),
-      body: SingleChildScrollView(
-        child: InkWell(
+        body: SingleChildScrollView(
           child: Column(
-
             children: <Widget>[
               Text(
                 "Choose your plan",
@@ -128,6 +139,8 @@ class _AccountDetails extends State<AccountDetails> {
                           color = "Green";
                           price="1";
                         });
+
+
                       },
                     ),
                   ),
@@ -183,17 +196,40 @@ class _AccountDetails extends State<AccountDetails> {
                   color: Colors.green,
                   textColor: Colors.white,
                   onPressed: () async {
-                    final response = await getIt<PaymentGateway>().selfTopUp(widget.phoneNumber,price);
+                    final response = await getIt<PaymentGateway>().selfTopUp("254"+widget.Phone.substring(1),price);
                     if(response["code"]==200){
                       if(response["ResultDesc"]=="Request cancelled by user"){
-                        showErrorDialog("Payment",response["ResultDesc"].toString());
 
+                        showErrorDialog("Payment",response["ResultDesc"].toString());
                       }else{
+
+
                         Navigator.pushNamed(context, "/ProfilePage");
                         showErrorDialog("Payment",response["ResultDesc"].toString());
+
+                        setState(() {
+                          isHidden = false;
+                        });
                       }
+
                     }else if(response["code"]==500){
+                      widget.appFunction.RegisterFunction(
+                          widget.Phone,
+                          widget.Password,
+                          widget.Email,
+                          widget.Name,
+                          widget.Location,
+                          widget.ParentID,
+                              () {
+                            showErrorDialog("Email State", "Same email");
+                          }, () {
+                        // Navigator.pushNamed(context, "/ProfilePage");
+                      });
+
                       showErrorDialog("Payment","Something went wrong. Try again");
+                      setState(() {
+                        isHidden = false;
+                      });
                     }
 
                   },
@@ -227,4 +263,6 @@ class _AccountDetails extends State<AccountDetails> {
           ],
         ));
   }
+
+
 }

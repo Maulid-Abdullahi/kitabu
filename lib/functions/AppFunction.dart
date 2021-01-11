@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AppFunction {
+  // ignore: non_constant_identifier_names, missing_return
   Future<AppFunction> LoginFunction(String email, String password) async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
@@ -21,6 +22,7 @@ class AppFunction {
     }
   }
 
+  // ignore: non_constant_identifier_names, missing_return
   Future<AppFunction> RegisterFunction(
       String phone,
       String password,
@@ -38,7 +40,7 @@ class AppFunction {
       }
     } on FirebaseAuthException catch (e) {
       print("Firebase exception");
-
+      print(e.toString());
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
@@ -51,6 +53,7 @@ class AppFunction {
     }
   }
 
+  // ignore: non_constant_identifier_names
   void AuthState() {
     FirebaseAuth auth = FirebaseAuth.instance;
     FirebaseAuth.instance.authStateChanges().listen((User user) {
@@ -62,6 +65,7 @@ class AppFunction {
     });
   }
 
+  // ignore: missing_return
   Future<AppFunction> createUser(String phone, String email, String name,
       String location, String id, function) {
     final firestoreInstance = Firestore.instance;
@@ -79,16 +83,41 @@ class AppFunction {
     });
   }
 
+  // ignore: missing_return
   Future<AppFunction> createProfile(
-      String name, String image, String classLevel) {
+      String name, String image, String classLevel,function) {
     final firestoreInstance = Firestore.instance;
-    var firebaseUser = FirebaseAuth.instance.currentUser.uid;
-    firestoreInstance.collection("User_Profile").doc().set({
+    var firebaseUser = FirebaseAuth.instance.currentUser;
+    firestoreInstance.collection("User_Profile").doc(firebaseUser.uid).set({
       "Name": name,
       "Image": image,
       "Class": classLevel,
-      "MasterId": firebaseUser.toString()
+      "MasterId": firebaseUser.uid.toString()
     }).then((_) {
+      function();
+      print("success!");
+    });
+  }
+
+  // ignore: missing_return
+  Future<AppFunction> continue_watching(String video_url, video_title, video_description, teacher, videoImage, video_time) {
+    final firestoreInstance = Firestore.instance;
+    var firebaseUser = FirebaseAuth.instance.currentUser;
+    firestoreInstance.
+    collection("User_Profile")
+        .doc(firebaseUser.uid)
+        .collection("continue_watching")
+        .add({
+      "teacher_name": teacher,
+      "video_description": video_description,
+      "video_title": video_title,
+      "video_url": video_url,
+      "video_time": video_time,
+      "videoImage": videoImage,
+      'key':video_title+teacher
+
+    }).then((_) {
+      print("function us !");
       print("success!");
     });
   }

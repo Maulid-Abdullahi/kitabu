@@ -259,7 +259,9 @@ class _EditProfileState extends State<EditProfile> {
       if (uploadTask.isComplete) {
         if (downlaodUrl != null) {
           widget.appFunction.createProfile(_fbKey.currentState.value["Name"],
-              downlaodUrl, _fbKey.currentState.value["Class"]);
+              downlaodUrl, _fbKey.currentState.value["Class"](),{
+
+              });
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => Homepage()));
         }else{

@@ -76,336 +76,342 @@ class _HomepageState extends State<Homepage>
       right: isCollapsed ? 0 : -0.2 * screenWidth,
       child: ScaleTransition(
         scale: _scaleAnimation,
-        child: Material(
-          animationDuration: duration,
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-          elevation: 8,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            physics: ClampingScrollPhysics(),
-            child: Container(
-              //padding: const EdgeInsets.only(left: 16, right: 16, top: 30),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: ScreenUtil().setHeight(10),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: InkWell(
-                          child: Icon(
-                            Icons.menu,
-                            color: Colors.black,
-                          ),
-                          onTap: () {
-                            setState(() {
-                              if (isCollapsed)
-                                _controller.forward();
-                              else
-                                _controller.reverse();
-
-                              isCollapsed = !isCollapsed;
-                            });
-                          },
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: ScreenUtil().setHeight(30),
+              ),
+              Material(
+                animationDuration: duration,
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                elevation: 8,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  physics: ClampingScrollPhysics(),
+                  child: Container(
+                    //padding: const EdgeInsets.only(left: 16, right: 16, top: 30),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: ScreenUtil().setHeight(10),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: InkWell(
-                          onTap: () async {
-                            String pin = await Navigator.push<String>(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => EditProfile()));
-                          },
-                          child: CircleAvatar(
-                            radius: 30,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(60),
-                              child: Image.network(
-                                widget.image,
-                                height: 60,
-                                width: 60,
-                                fit: BoxFit.cover,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: InkWell(
+                                child: Icon(
+                                  Icons.menu,
+                                  color: Colors.black,
+                                ),
+                                onTap: () {
+                                  setState(() {
+                                    if (isCollapsed)
+                                      _controller.forward();
+                                    else
+                                      _controller.reverse();
+
+                                    isCollapsed = !isCollapsed;
+                                  });
+                                },
                               ),
                             ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: CircleAvatar(
+                                radius: 30,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(60),
+                                  child: Image.network(
+                                    widget.image,
+                                    height: 60,
+                                    width: 60,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: ScreenUtil().setHeight(10),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(3.0),
+                                      child: Text(
+                                        "Hello",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: ScreenUtil().setSp(25),
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(3.0),
+                                      child: Text(
+                                        widget.username,
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Icon(
+                               // Firestore.instance.collection('clients').where('searchKey', isEqualTo: searchField.substring(0, 1).toUpperCase()).getDocuments();
+                                Icons.search,
+                                color: Colors.green,
+                              ),
+                            ],
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: ScreenUtil().setHeight(10),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
                           child: Row(
                             children: [
                               Padding(
-                                padding: const EdgeInsets.all(3.0),
+                                padding: const EdgeInsets.only(left: 3.0),
                                 child: Text(
-                                  "Hello",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: ScreenUtil().setSp(25),
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(3.0),
-                                child: Text(
-                                  widget.username,
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                  ),
+                                  'What new do you want to learn',
+                                  style: TextStyle(color: Colors.green, fontSize: 12),
                                 ),
                               )
                             ],
                           ),
                         ),
-                        Icon(
-                         // Firestore.instance.collection('clients').where('searchKey', isEqualTo: searchField.substring(0, 1).toUpperCase()).getDocuments();
-                          Icons.search,
-                          color: Colors.green,
+                        SizedBox(
+                          height: ScreenUtil().setHeight(10),
                         ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: Row(
-                      children: [
                         Padding(
-                          padding: const EdgeInsets.only(left: 3.0),
-                          child: Text(
-                            'What new do you want to learn',
-                            style: TextStyle(color: Colors.green, fontSize: 12),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: ScreenUtil().setHeight(10),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 3.0),
-                          child: Text(
-                            'New Content',
-                            style: TextStyle(
-                                color: Colors.green,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: ScreenUtil().setHeight(10),
-                  ),
-                  Container(
-                    // future: Firebase.initializeApp(),
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(6)),
-                    child: StreamBuilder<QuerySnapshot>(
-                        stream: FirebaseFirestore.instance
-                            .collection("Videos")
-                            .where("level", isEqualTo: widget.level)
-                            .snapshots(),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<QuerySnapshot> snapshot) {
-                          if (snapshot.hasError) {
-                            return Text("Something went wrong");
-                          }
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return Text("Loading..");
-                          }
-
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ListView(
-                              scrollDirection: Axis.horizontal,
-                              physics: BouncingScrollPhysics(),
-                              //shrinkWrap: true,
-                              //ignore: deprecated_member_use
-                              children:
-                                  snapshot.data.documents.map((documents) {
-                                return ContentView(
-                                  videoImage: documents.data()["image"],
-                                  teacher: documents.data()["teacher"],
-                                  videoTitle: documents.data()["video_title"],
-                                  video_url: documents.data()["video_url"],
-                                );
-                              }).toList(),
-                            ),
-                          );
-                        }),
-                    height: ScreenUtil().setHeight(300),
-                    width: ScreenUtil()
-                        .setWidth(MediaQuery.of(context).size.width),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Container(
-                          child: Column(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Row(
                             children: [
                               Padding(
-                                padding: const EdgeInsets.all(3.0),
-                                child: Text('My Subjects',
-                                    style: TextStyle(
-                                        color: Colors.green,
-                                        fontSize: 12.0,
-                                        fontWeight: FontWeight.bold)),
+                                padding: const EdgeInsets.only(left: 3.0),
+                                child: Text(
+                                  'New Content',
+                                  style: TextStyle(
+                                      color: Colors.green,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold),
+                                ),
                               )
                             ],
                           ),
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                      //  height: ScreenUtil().setHeight(3),
-                      ),
-                  Container(
-                      child: GridView.count(
-                    primary: false,
-                    padding: const EdgeInsets.all(15),
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    shrinkWrap: true,
-                    crossAxisCount: 2,
-                    children: <Widget>[
-                      Container(
-                        child: SubjectsView(
-                          category: "Class 4",
-                          image: "assets/book.jpg",
-                          subject: "English",
                         ),
-                      ),
-                      SubjectsView(
-                        category: "Class 4",
-                        image: "assets/book.jpg",
-                        subject: "Math",
-                      ),
-                      SubjectsView(
-                        category: "Class 4",
-                        image: "assets/book.jpg",
-                        subject: "Physics",
-                      ),
-                      SubjectsView(
-                        category: "Class 4",
-                        image: "assets/book.jpg",
-                        subject: "Kiswahili",
-                      ),
-                    ],
-                  )),
-                  SizedBox(
-                    height: ScreenUtil().setHeight(10),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(3.0),
-                        child: Text(
-                          'More Subjects',
-                          style: TextStyle(color: Colors.green, fontSize: 10),
+                        SizedBox(
+                          height: ScreenUtil().setHeight(10),
                         ),
+                        Container(
+                          // future: Firebase.initializeApp(),
+                          decoration:
+                              BoxDecoration(borderRadius: BorderRadius.circular(6)),
+                          child: StreamBuilder<QuerySnapshot>(
+                              stream: FirebaseFirestore.instance
+                                  .collection("Videos")
+                                  .where("level", isEqualTo: widget.level)
+                                  .snapshots(),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                                if (snapshot.hasError) {
+                                  return Text("Something went wrong");
+                                }
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return Text("Loading..");
+                                }
 
-                      ),
-                      Icon(
-                        Icons.arrow_forward_ios_outlined,
-                        color: Colors.black,
-                        size: 12.0,
-                      )
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 3.0),
-                          child: Text(
-                            'Continue Watching',
-                            style: TextStyle(
-                                color: Colors.green,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: ScreenUtil().setHeight(10),
-                  ),
-                  Container(
-                    // future: Firebase.initializeApp(),
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(6)),
-                    child: StreamBuilder<QuerySnapshot>(
-                        stream: FirebaseFirestore.instance
-                            .collection("Videos")
-                            .where("level", isEqualTo: widget.level)
-                            .snapshots(),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<QuerySnapshot> snapshot) {
-                          if (snapshot.hasError) {
-                            return Text("Something went wrong");
-                          }
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return Text("Loading..");
-                          }
-
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ListView(
-                              scrollDirection: Axis.horizontal,
-                              physics: BouncingScrollPhysics(),
-                              //shrinkWrap: true,
-                              //ignore: deprecated_member_use
-                              children:
-                              snapshot.data.documents.map((documents) {
-                                return ContentView(
-                                  videoImage: documents.data()["image"],
-                                  teacher: documents.data()["teacher"],
-                                  videoTitle: documents.data()["video_title"],
-                                  video_url: documents.data()["video_url"],
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ListView(
+                                    scrollDirection: Axis.horizontal,
+                                    physics: BouncingScrollPhysics(),
+                                    //shrinkWrap: true,
+                                    //ignore: deprecated_member_use
+                                    children:
+                                        snapshot.data.documents.map((documents) {
+                                      return ContentView(
+                                        videoImage: documents.data()["image"],
+                                        teacher: documents.data()["teacher"],
+                                        videoTitle: documents.data()["video_title"],
+                                        video_url: documents.data()["video_url"],
+                                        video_time: documents.data()["video_time"],
+                                        video_description: documents.data()[" video_description"],
+                                      );
+                                    }).toList(),
+                                  ),
                                 );
-                              }).toList(),
+                              }),
+                          height: ScreenUtil().setHeight(300),
+                          width: ScreenUtil()
+                              .setWidth(MediaQuery.of(context).size.width),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Container(
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(3.0),
+                                      child: Text('My Subjects',
+                                          style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: 12.0,
+                                              fontWeight: FontWeight.bold)),
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                            //  height: ScreenUtil().setHeight(3),
                             ),
-                          );
-                        }),
-                    height: ScreenUtil().setHeight(300),
-                    width: ScreenUtil()
-                        .setWidth(MediaQuery.of(context).size.width),
+                        Container(
+                            child: GridView.count(
+                          primary: false,
+                          padding: const EdgeInsets.all(15),
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                          shrinkWrap: true,
+                          crossAxisCount: 2,
+                          children: <Widget>[
+                            Container(
+                              child: SubjectsView(
+                                category: "Class 4",
+                                image: "assets/image/book.jpg",
+                                subject: "English",
+                              ),
+                            ),
+                            SubjectsView(
+                              category: "Class 4",
+                              image: "assets/image/book.jpg",
+                              subject: "Math",
+                            ),
+                            SubjectsView(
+                              category: "Class 4",
+                              image: "assets/image/book.jpg",
+                              subject: "Physics",
+                            ),
+                            SubjectsView(
+                              category: "Class 4",
+                              image: "assets/image/book.jpg",
+                              subject: "Kiswahili",
+                            ),
+                          ],
+                        )),
+                        SizedBox(
+                          height: ScreenUtil().setHeight(10),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(3.0),
+                              child: Text(
+                                'More Subjects',
+                                style: TextStyle(color: Colors.green, fontSize: 10),
+                              ),
+
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios_outlined,
+                              color: Colors.black,
+                              size: 12.0,
+                            )
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 3.0),
+                                child: Text(
+                                  'Continue Watching',
+                                  style: TextStyle(
+                                      color: Colors.green,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: ScreenUtil().setHeight(10),
+                        ),
+                        Container(
+                          // future: Firebase.initializeApp(),
+                          decoration:
+                              BoxDecoration(borderRadius: BorderRadius.circular(6)),
+                          child: StreamBuilder<QuerySnapshot>(
+                              stream: FirebaseFirestore.instance
+                                  .collection("User_Profile")
+                                  .doc("AFFbZlUrugXjqM2IkSDZeZZejNA3")
+                                  .collection("continue_watching")
+                                  .snapshots(),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                                if (snapshot.hasError) {
+                                  return Text("Something went wrong");
+                                }
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return Text("Loading..");
+                                }
+
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ListView(
+                                    scrollDirection: Axis.horizontal,
+                                    physics: BouncingScrollPhysics(),
+                                    //shrinkWrap: true,
+                                    //ignore: deprecated_member_use
+                                    children:
+                                    snapshot.data.documents.map((documents) {
+                                      return ContentView(
+                                        teacher: documents.data()["teacher_name"],
+                                        video_description: documents.data()[" video_description"],
+                                        videoTitle: documents.data()["video_title"],
+                                        video_url: documents.data()["video_url"],
+                                        video_time: documents.data()["video_time"],
+                                        videoImage:documents.data()["videoImage"],
+                                      );
+                                    }).toList(),
+                                  ),
+                                );
+                              }),
+                          height: ScreenUtil().setHeight(300),
+                          width: ScreenUtil()
+                              .setWidth(MediaQuery.of(context).size.width),
+                        ),
+                        SizedBox(
+                          height: ScreenUtil().setHeight(10),
+                        ),
+                      ],
+                    ),
                   ),
-                  SizedBox(
-                    height: ScreenUtil().setHeight(10),
-                  ),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
         ),
       ),

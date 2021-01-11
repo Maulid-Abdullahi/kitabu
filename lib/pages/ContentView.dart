@@ -4,9 +4,9 @@ import 'package:keytabu_project/pages/ContentViewExtension.dart';
 import 'package:video_player/video_player.dart';
 
 class ContentView extends StatefulWidget {
-  final String videoImage, videoTitle, teacher,video_url;
+  final String videoImage, videoTitle, teacher,video_url, video_time,  video_description;
 
-  const ContentView({Key key, this.videoImage, this.teacher, this.videoTitle, this.video_url});
+  const ContentView({Key key, this.videoImage, this.teacher, this.videoTitle, this.video_url, this.video_time, this.video_description});
 
   @override
   State<StatefulWidget> createState() {
@@ -30,10 +30,13 @@ class _ContentViewState extends State<ContentView> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => ContentViewExtension(
-                        images: widget.videoImage,
                         teachers: widget.teacher,
+                        video_description:widget.video_description,
                         titles: widget.videoTitle,
                         video_url: widget.video_url,
+                        images: widget.videoImage,
+                        video_time: widget.video_time,
+
                       )));
             },
             child: ClipRRect(

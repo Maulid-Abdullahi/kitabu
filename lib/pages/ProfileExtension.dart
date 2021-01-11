@@ -7,6 +7,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class ProfileExtension extends StatefulWidget {
   AppFunction appFunction = new AppFunction();
@@ -23,6 +24,7 @@ class _ProfileExtensionState extends State<ProfileExtension> {
 
   final firestoreInstance = Firestore.instance;
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
+  var _isHidden = false;
   bool isImageLoaded = false;
 
   @override
@@ -31,168 +33,174 @@ class _ProfileExtensionState extends State<ProfileExtension> {
     ScreenUtil.init(context);
     //If the design is based on the size of the iPhone6 ​​(iPhone6 ​​750*1334)
     ScreenUtil.init(context, width: 360, height: 750);
-    return Scaffold(
-        body: SingleChildScrollView(
-          child: Container(
-            child: FormBuilder(
-              key: _fbKey,
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      height: 120.0,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: Container(
-                              height: 40,
-                              width: 15,
-                              child: Icon(
-                                Icons.keyboard_backspace,
-                                color: Colors.green,
+    return ModalProgressHUD(
+      inAsyncCall: _isHidden,
+      child: Scaffold(
+          body: SingleChildScrollView(
+            child: Container(
+              child: FormBuilder(
+                key: _fbKey,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        height: 120.0,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Container(
+                                height: 40,
+                                width: 15,
+                                child: Icon(
+                                  Icons.keyboard_backspace,
+                                  color: Colors.green,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('Create',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18.0)),
-                      Text(' a profile',
-                          style: TextStyle(color: Colors.grey, fontSize: 12.0))
-                    ],
-                  ),
-                  SizedBox(
-                    height: ScreenUtil().setHeight(10),
-                  ),
-                  Column(
-                    children: <Widget>[
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Center(
-                        child: GestureDetector(
-                          onTap: () {
-                            _showPicker(context);
-                          },
-                          child: CircleAvatar(
-                            radius: 52,
-                            backgroundColor: Colors.green,
-                            child: _image != null
-                                ? ClipRRect(
-                              borderRadius: BorderRadius.circular(50),
-                              child: Image.file(
-                                _image,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Create',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18.0)),
+                        Text(' a profile',
+                            style: TextStyle(color: Colors.grey, fontSize: 12.0))
+                      ],
+                    ),
+                    SizedBox(
+                      height: ScreenUtil().setHeight(10),
+                    ),
+                    Column(
+                      children: <Widget>[
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Center(
+                          child: GestureDetector(
+                            onTap: () {
+                              _showPicker(context);
+                            },
+                            child: CircleAvatar(
+                              radius: 52,
+                              backgroundColor: Colors.green,
+                              child: _image != null
+                                  ? ClipRRect(
+                                borderRadius: BorderRadius.circular(50),
+                                child: Image.file(
+                                  _image,
+                                  width: 100,
+                                  height: 100,
+                                  // fit: BoxFit.fitHeight,
+                                  fit: BoxFit.cover,
+                                ),
+                              )
+                                  : Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.grey[200],
+                                    borderRadius: BorderRadius.circular(50)),
                                 width: 100,
                                 height: 100,
-                                // fit: BoxFit.fitHeight,
-                                fit: BoxFit.cover,
-                              ),
-                            )
-                                : Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.grey[200],
-                                  borderRadius: BorderRadius.circular(50)),
-                              width: 100,
-                              height: 100,
-                              child: Icon(
-                                Icons.camera_alt,
-                                color: Colors.grey[800],
+                                child: Icon(
+                                  Icons.camera_alt,
+                                  color: Colors.grey[800],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Pick an Image',
-                        style: TextStyle(color: Colors.green),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: ScreenUtil().setHeight(10),
-                  ),
-                  SizedBox(
-                    width: 350,
-                    child: FormBuilderTextField(
-                      attribute: "Name",
-                      keyboardType: TextInputType.text,
-                      obscureText: false,
-                      validators: [
-                        //  FormBuilderValidators.email(errorText: "Email is invalid")
+                        )
                       ],
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius:
-                              const BorderRadius.all(Radius.circular(6.0))),
-                          hintText: "Enter profile name",
-                          suffixIcon: Icon(Icons.person)),
                     ),
-                  ),
-                  SizedBox(
-                    height: ScreenUtil().setHeight(10),
-                  ),
-                  SizedBox(
-                    width: 350,
-                    child: FormBuilderTextField(
-                      attribute: "Class",
-                      keyboardType: TextInputType.text,
-                      obscureText: false,
-                      validators: [
-                        //  FormBuilderValidators.email(errorText: "Email is invalid")
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Pick an Image',
+                          style: TextStyle(color: Colors.green),
+                        )
                       ],
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius:
-                              const BorderRadius.all(Radius.circular(6.0))),
-                          hintText: "Enter class level",
-                          suffixIcon: Icon(Icons.school)),
                     ),
-                  ),
-                  SizedBox(
-                    height: ScreenUtil().setHeight(10),
-                  ),
-                  ClipOval(
-                    child: Material(
-                      color: Colors.green,
-                      child: InkWell(
-                        child: SizedBox(
-                            width: 56,
-                            height: 56,
-                            child: Icon(Icons.arrow_forward_ios_outlined)),
-                        onTap: () {
-                          if (_fbKey.currentState.saveAndValidate()) {
-                            uploadFile(_image);
-                          }
-                        },
+                    SizedBox(
+                      height: ScreenUtil().setHeight(10),
+                    ),
+                    SizedBox(
+                      width: 350,
+                      child: FormBuilderTextField(
+                        attribute: "Name",
+                        keyboardType: TextInputType.text,
+                        obscureText: false,
+                        validators: [
+                          //  FormBuilderValidators.email(errorText: "Email is invalid")
+                        ],
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                const BorderRadius.all(Radius.circular(6.0))),
+                            hintText: "Enter profile name",
+                            suffixIcon: Icon(Icons.person)),
                       ),
                     ),
-                  ),
-                ],
+                    SizedBox(
+                      height: ScreenUtil().setHeight(10),
+                    ),
+                    SizedBox(
+                      width: 350,
+                      child: FormBuilderTextField(
+                        attribute: "Class",
+                        keyboardType: TextInputType.text,
+                        obscureText: false,
+                        validators: [
+                          //  FormBuilderValidators.email(errorText: "Email is invalid")
+                        ],
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                const BorderRadius.all(Radius.circular(6.0))),
+                            hintText: "Enter class level",
+                            suffixIcon: Icon(Icons.school)),
+                      ),
+                    ),
+                    SizedBox(
+                      height: ScreenUtil().setHeight(10),
+                    ),
+                    ClipOval(
+                      child: Material(
+                        color: Colors.green,
+                        child: InkWell(
+                          child: SizedBox(
+                              width: 56,
+                              height: 56,
+                              child: Icon(Icons.arrow_forward_ios_outlined)),
+                          onTap: () {
+                            if (_fbKey.currentState.saveAndValidate()) {
+                              setState(() {
+                                 _isHidden = true;
+                              });
+                              uploadFile(_image);
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ));
+          )),
+    );
   }
 
   _imgFromCamera() async {
@@ -252,11 +260,18 @@ class _ProfileExtensionState extends State<ProfileExtension> {
 
       StorageTaskSnapshot storageTaskSnapshot = await uploadTask.onComplete;
 // Once the image is uploaded to firebase get the download link.
-      String downlaodUrl = await storageTaskSnapshot.ref.getDownloadURL();
+      String downloadUrl = await storageTaskSnapshot.ref.getDownloadURL();
       if (uploadTask.isComplete) {
-        if (downlaodUrl != null) {
+        if (downloadUrl != null) {
+          setState(() {
+            _isHidden = false;
+          });
           widget.appFunction.createProfile(_fbKey.currentState.value["Name"],
-              downlaodUrl, _fbKey.currentState.value["Class"]);
+              downloadUrl, _fbKey.currentState.value["Class"],(){
+                setState(() {
+                  _isHidden = false;
+                });
+              });
           Navigator.pushNamed(context, "/ProfilePage");
         }else{
 
@@ -264,7 +279,7 @@ class _ProfileExtensionState extends State<ProfileExtension> {
 
       }
 
-      return downlaodUrl;
+      return downloadUrl;
     } catch (e) {
       e.code == 'canceled';
     }

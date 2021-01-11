@@ -7,9 +7,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:keytabu_project/pages/AccountDetails.dart';
 
 class Signup extends StatefulWidget {
-  final String phoneNumber;
+ // final String phoneNumber, Email,Password,Name,Location,ParentID  ;
   AppFunction appFunction = new AppFunction();
-  Signup({Key key, this.phoneNumber}) : super(key: key);
+ // Signup({Key key, this.phoneNumber, this.Email, this.Password, this.Name, this.Location, this.ParentID}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
     return _Signup();
@@ -38,53 +38,55 @@ class _Signup extends State<Signup> {
           body: SingleChildScrollView(
         child: Column(
           children: [
+            SizedBox(
+              height: ScreenUtil().setHeight(50),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('KEYTABU',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: ScreenUtil().setSp(20),
+                        fontWeight: FontWeight.bold))
+              ],
+            ),
+            SizedBox(
+              height: ScreenUtil().setHeight(20),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Create an Account',
+                    style: TextStyle(
+                        color: Colors.green,
+                        fontSize: ScreenUtil().setSp(15),
+                        fontWeight: FontWeight.bold))
+              ],
+            ),
+            SizedBox(
+              height: ScreenUtil().setHeight(20),
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: FormBuilder(
                 key: _fbKey,
                 child: Column(
                   children: [
-                    SizedBox(
-                      height: ScreenUtil().setHeight(50),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('KEYTABU',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: ScreenUtil().setSp(20),
-                                fontWeight: FontWeight.bold))
-                      ],
-                    ),
-                    SizedBox(
-                      height: ScreenUtil().setHeight(20),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('Create an Account',
-                            style: TextStyle(
-                                color: Colors.green,
-                                fontSize: ScreenUtil().setSp(15),
-                                fontWeight: FontWeight.bold))
-                      ],
-                    ),
-                    SizedBox(
-                      height: ScreenUtil().setHeight(20),
-                    ),
                     FormBuilderTextField(
                       attribute: "Phone",
                       keyboardType: TextInputType.phone,
                       obscureText: false,
+                      maxLength: 10,
                       validators: [
-                        // FormBuilderValidators.email(errorText: "Email is invalid")
+                        FormBuilderValidators.minLength(10,allowEmpty: true,errorText: "Enter a valid number with 10 characters"),
+                        FormBuilderValidators.required(errorText: "Fill this field")
                       ],
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(6.0))),
-                          hintText: "Enter PhoneNo",
+                          hintText: "Enter Phone No",
                           suffixIcon: Icon(Icons.phone)),
                     ),
                     SizedBox(
@@ -95,7 +97,7 @@ class _Signup extends State<Signup> {
                       keyboardType: TextInputType.name,
                       obscureText: false,
                       validators: [
-                        // FormBuilderValidators.email(errorText: "Email is invalid")
+                        FormBuilderValidators.required(errorText: "Fill this field")
                       ],
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
@@ -112,7 +114,7 @@ class _Signup extends State<Signup> {
                       keyboardType: TextInputType.streetAddress,
                       obscureText: false,
                       validators: [
-                        // FormBuilderValidators.email(errorText: "Email is invalid")
+                        FormBuilderValidators.required(errorText: "Fill this field")
                       ],
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
@@ -130,7 +132,8 @@ class _Signup extends State<Signup> {
                       obscureText: false,
                       validators: [
                         FormBuilderValidators.email(
-                            errorText: "Email is invalid")
+                            errorText: "Email is invalid"),
+                        FormBuilderValidators.required(errorText: "Fill this field")
                       ],
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
@@ -146,8 +149,10 @@ class _Signup extends State<Signup> {
                       attribute: "Password",
                       keyboardType: TextInputType.text,
                       obscureText: _isHidden,
+                      maxLength: 10,
                       validators: [
-                        //  FormBuilderValidators.email(errorText: "Email is invalid")
+                        FormBuilderValidators.required(errorText: "Fill this field"),
+                        FormBuilderValidators.minLength(10,allowEmpty: true,errorText: "Enter a valid password with 10 characters"),
                       ],
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
@@ -173,7 +178,7 @@ class _Signup extends State<Signup> {
                       keyboardType: TextInputType.number,
                       obscureText: false,
                       validators: [
-                        // FormBuilderValidators.email(errorText: "Email is invalid")
+                         FormBuilderValidators.required(errorText: "Fill this field")
                       ],
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
@@ -195,27 +200,20 @@ class _Signup extends State<Signup> {
                       color: Colors.green,
                       onPressed: () async {
                         if (_fbKey.currentState.saveAndValidate()) {
-
-                          String pin = await Navigator.push<String>(
+                          await Navigator.push<String>(
                               context,
+                             // Phone, Password,Email, Name,Location, ParentID;
                               MaterialPageRoute(
                                   builder: (context) => AccountDetails(
-                                    phoneNumber: _fbKey.currentState.value["Phone"],
+                                    Email:  _fbKey.currentState.value["Email"],
+                                    Password: _fbKey.currentState.value["Password"],
+                                    Name: _fbKey.currentState.value["Name"],
+                                    Location: _fbKey.currentState.value["Location"],
+                                    ParentID: _fbKey.currentState.value["ParentID"],
+                                    Phone: _fbKey.currentState.value["Phone"],
                                   )));
-                          setState(() {
-                            isImageLoaded = true;
-                          });
-                          widget.appFunction.RegisterFunction(
-                              _fbKey.currentState.value["Phone"],
-                              _fbKey.currentState.value["Password"],
-                              _fbKey.currentState.value["Email"],
-                              _fbKey.currentState.value["Name"],
-                              _fbKey.currentState.value["Location"],
-                              _fbKey.currentState.value["ParentID"], () {
-                            showErrorDialog("Email State", "Same email");
-                          }, () {
-                           // Navigator.pushNamed(context, "/ProfilePage");
-                          });
+
+
                           // Navigator.pushNamed(context, "/Login");
 
                         }

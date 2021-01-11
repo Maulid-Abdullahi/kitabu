@@ -65,6 +65,8 @@ class PaymentGateway {
        data:payload,
       );
     print(resp.statusCode);
+
+      print("....................................................."+payload.toString());
       if (resp.statusCode == 200) {
         print("success" + resp.statusMessage.toString());
         print("RESPONSE"+resp.toString());

@@ -43,7 +43,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     stream:
                     FirebaseFirestore.instance.collection("User_Profile")
                         .where("MasterId",
-                        isEqualTo: FirebaseAuth.instance.currentUser.uid)
+                        isEqualTo: FirebaseAuth.instance.currentUser.uid
+                    )
                         .snapshots(),
                     builder: (BuildContext context,
                         AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -81,10 +82,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                           padding: const EdgeInsets.all(8.0),
                                           child: CircleAvatar(
                                             radius: 30,
-                                            backgroundColor: Color(0xffFDCF09),
                                             child: ClipRRect(
                                               borderRadius: BorderRadius.circular(50),
-                                              child: Image.network(documents.data()["Image"].toString(),
+                                              child: documents.data()["Image"].toString()==null?Image.asset("assets/image/loading_keytabu.png")
+                                                  :Image.network(documents.data()["Image"].toString(),
                                                 width: 60,
                                                 height: 60,
                                                 fit: BoxFit.cover,),
